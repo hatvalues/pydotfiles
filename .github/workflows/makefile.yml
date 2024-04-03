@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Make Install
+      run: make install
+
+    - name: Make Format
+      run: make format
+
+    - name: Make Lint
+      run: make lint
+
+    - name: Revision
+      run: echo "${{ github.sha }}" > REVISION
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Make Test
+      run: make test
